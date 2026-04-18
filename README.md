@@ -55,9 +55,7 @@ Lightweight with a single dependency on OpenSSL for MESSAGE-INTEGRITY and FINGER
 ### Example usage for creating a binding request and parsing:
 
 ```c++
-#include <AttributeTypes.hpp>
-#include <Encoder.hpp>
-#include <Decoder.hpp>
+#include <stunxx/stunxx.hpp>
 
 #include <iostream>
 #include <vector>
@@ -129,7 +127,7 @@ int main() {
 For ease of use there's also a stun message builder
 
 ```c++
-#include "StunMessageBuilder"
+#include <stunxx/stunxx.hpp>
 using namespace stunxx;
 auto encoder_ = StunMessageBuilder(StunMethod::Binding, StunClass::Request)
                .add<UsernameAttr>("Alice")

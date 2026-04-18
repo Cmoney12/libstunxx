@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <algorithm>
 
-#include "Attributes.hpp"
+#include "attributes/AttributeTable.hpp"
 #include "Stun.hpp"
 
 namespace stunxx {
@@ -111,7 +111,7 @@ public:
 private:
     std::span<const std::uint8_t> buffer_;
     StunHeader stun_header_{};
-    Attributes attributes_;
+    AttributeTable attributes_;
     std::size_t offset_{};
 };
 }

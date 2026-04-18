@@ -14,7 +14,7 @@
 #include <ranges>
 #include <optional>
 
-#include "Stun.hpp"
+#include "stunxx/Stun.hpp"
 
 namespace stunxx {
 class DataAttr {

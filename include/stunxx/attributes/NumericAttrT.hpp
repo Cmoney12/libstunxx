@@ -5,7 +5,7 @@
 #include <span>
 #include <cstdint>
 
-#include "Stun.hpp"
+#include "stunxx/Stun.hpp"
 
 /*
  * STUN attribute value for PRIORITY, REQUESTED-TRANSPORT, LIFETIME, etc.

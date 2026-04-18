@@ -1,4 +1,4 @@
-#include "Decoder.hpp"
+#include "stunxx/Decoder.hpp"
 
 std::optional<stunxx::Decoder> stunxx::Decoder::parse(std::span<const std::uint8_t> buffer) {
     Decoder decoder(buffer);

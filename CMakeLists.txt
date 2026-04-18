@@ -11,34 +11,34 @@ endif()
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)  # default OFF
 
 add_library(stunxx
-        crc32.hpp
-        Stun.hpp
-        Encoder.cpp
-        Encoder.hpp
-        Decoder.cpp
-        Decoder.hpp
-        attributes/StringAttrT.hpp
-        attributes/XorAddressAttrT.hpp
-        attributes/Attributes.cpp
-        attributes/Attributes.hpp
-        attributes/AttributeTypes.hpp
-        attributes/NumericAttrT.hpp
-        attributes/ErrorCodeAttr.hpp
-        attributes/FingerprintAttr.hpp
-        attributes/MessageIntegrityAttrT.hpp
-        attributes/PasswordAlgorithmAttrT.hpp
-        attributes/MarkerAttrT.hpp
-        attributes/UnknownAttributesAttr.hpp
-        StunMessageBuilder.hpp
-        attributes/ReservationAttr.hpp
-        attributes/DataAttr.hpp
-        ChannelData.hpp
-        attributes/IceControlAttr.hpp)
+        include/stunxx/crc32.hpp
+        include/stunxx/Stun.hpp
+        src/Encoder.cpp
+        include/stunxx/Encoder.hpp
+        src/Decoder.cpp
+        include/stunxx/Decoder.hpp
+        include/stunxx/attributes/StringAttrT.hpp
+        include/stunxx/attributes/XorAddressAttrT.hpp
+        src/AttributeTable.cpp
+        include/stunxx/attributes/AttributeTable.hpp
+        include/stunxx/attributes/Attributes.hpp
+        include/stunxx/attributes/NumericAttrT.hpp
+        include/stunxx/attributes/ErrorCodeAttr.hpp
+        include/stunxx/attributes/FingerprintAttr.hpp
+        include/stunxx/attributes/MessageIntegrityAttrT.hpp
+        include/stunxx/attributes/PasswordAlgorithmAttrT.hpp
+        include/stunxx/attributes/MarkerAttrT.hpp
+        include/stunxx/attributes/UnknownAttributesAttr.hpp
+        include/stunxx/StunMessageBuilder.hpp
+        include/stunxx/attributes/ReservationAttr.hpp
+        include/stunxx/attributes/DataAttr.hpp
+        include/stunxx/ChannelData.hpp
+        include/stunxx/attributes/IceControlAttr.hpp
+        include/stunxx/stunxx.hpp)
 
 target_include_directories(stunxx
-        PRIVATE
-        ${CMAKE_SOURCE_DIR}
-        ${CMAKE_SOURCE_DIR}/attributes
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 target_link_libraries(stunxx OpenSSL::SSL)

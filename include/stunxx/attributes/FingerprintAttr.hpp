@@ -23,8 +23,8 @@
 #include <optional>
 #include <span>
 
-#include "crc32.hpp"
-#include "Stun.hpp"
+#include "stunxx/crc32.hpp"
+#include "stunxx/Stun.hpp"
 
 namespace stunxx {
 class FingerprintAttr {

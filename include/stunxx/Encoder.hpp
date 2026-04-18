@@ -6,8 +6,8 @@
 #include <cstdint>
 #include <cstring>
 
-#include "AttributeTypes.hpp"
 #include "Stun.hpp"
+#include "attributes/FingerprintAttr.hpp"
 
 namespace stunxx {
 template<typename T>

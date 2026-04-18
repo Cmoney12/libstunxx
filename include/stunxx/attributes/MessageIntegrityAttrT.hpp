@@ -8,7 +8,7 @@
 #include <openssl/evp.h>
 #include <openssl/sha.h>
 
-#include "Stun.hpp"
+#include "stunxx/Stun.hpp"
 
 /*
  * STUN attribute value for MESSAGE-INTEGRITY and MESSAGE-INTEGRITY-SHA256

@@ -32,7 +32,7 @@
 #include <sstream>
 #include <algorithm>
 
-#include "Stun.hpp"
+#include "stunxx/Stun.hpp"
 
 namespace stunxx {
 struct StunAddress {

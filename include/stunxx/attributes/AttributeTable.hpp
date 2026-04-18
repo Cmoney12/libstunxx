@@ -1,7 +1,7 @@
-#ifndef LIBSTUNXX_ATTRIBUTES_HPP
-#define LIBSTUNXX_ATTRIBUTES_HPP
+#ifndef LIBSTUNXX_ATTRIBUTETABLE_HPP
+#define LIBSTUNXX_ATTRIBUTETABLE_HPP
 
-#include "Stun.hpp"
+#include "stunxx/Stun.hpp"
 #include <vector>
 #include <optional>
 #include <algorithm>
@@ -9,13 +9,13 @@
 
 namespace stunxx {
 // container for attributes
-class Attributes {
+class AttributeTable {
 public:
-    Attributes();
+    AttributeTable();
 
     void append(std::uint16_t type, std::uint16_t length, std::size_t offset);
 
-    void append(AttrHeader header);
+    void append(const AttrHeader& header);
 
     std::optional<AttrHeader> get(std::uint16_t type);
 
@@ -23,7 +23,9 @@ public:
 
     auto range(std::uint16_t type) const {
         return attributes_ | std::views::filter(
-            [type](const AttrHeader& a) { return a.type == type; });
+            [type](const AttrHeader& a) noexcept {
+                return a.type == type;
+        });
     }
 
     void clear() noexcept { attributes_.clear(); }
@@ -33,4 +35,4 @@ private:
 };
 }
 
-#endif //LIBSTUNXX_ATTRIBUTES_HPP
+#endif //LIBSTUNXX_ATTRIBUTETABLE_HPP

@@ -21,7 +21,7 @@
 #include <optional>
 #include <span>
 
-#include "Stun.hpp"
+#include "stunxx/Stun.hpp"
 
 namespace stunxx {
 class ReservationTokenAttr {

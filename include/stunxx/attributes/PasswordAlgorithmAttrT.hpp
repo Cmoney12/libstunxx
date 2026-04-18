@@ -6,7 +6,7 @@
 #include <cstring>
 #include <span>
 
-#include "Stun.hpp"
+#include "stunxx/Stun.hpp"
 
 /*
  * STUN attribute value for PASSWORD-ALGORITHM and PASSWORD-ALGORITHMS
