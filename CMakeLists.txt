@@ -43,10 +43,10 @@ target_include_directories(stunxx
 
 target_link_libraries(stunxx OpenSSL::SSL)
 
-#option(BUILD_TESTS "Build the tests" ON)  # Allows turning tests off if needed
+option(BUILD_TESTS "Build the tests" ON)  # Allows turning tests off if needed
 
 # --- Tests (optional) ---
-#if(BUILD_TESTS)
-#    enable_testing()
-#    add_subdirectory(test)
-#endif()
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(test)
+endif()

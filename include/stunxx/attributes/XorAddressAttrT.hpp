@@ -29,9 +29,18 @@
 #include <optional>
 #include <cstring>
 #include <string>
-#include <sstream>
 #include <algorithm>
 
+#if defined(_WIN32)
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+#elif defined(__APPLE__)
+    #include <arpa/inet.h>
+#elif defined(__linux__)
+    #include <arpa/inet.h>
+#else
+    #error "Unsupported platform"
+#endif
 #include "stunxx/Stun.hpp"
 
 namespace stunxx {
@@ -92,22 +101,22 @@ public:
     }
 
     std::string addressStr() const {
+        char buffer[INET6_ADDRSTRLEN];
+
+#ifdef _WIN32
         if (addr_family_ == StunAddress::Family::IPv4) {
-            return std::to_string(address_[0]) + "." +
-                   std::to_string(address_[1]) + "." +
-                   std::to_string(address_[2]) + "." +
-                   std::to_string(address_[3]);
-        } else if (addr_family_ == StunAddress::Family::IPv6) {
-            std::ostringstream oss;
-            for (std::size_t i = 0; i < 16; i += 2) {
-                const std::uint16_t group = (static_cast<std::uint16_t>(address_[i]) << 8)
-                                            |  static_cast<std::uint16_t>(address_[i + 1]);
-                oss << std::hex << group;
-                if (i < 14) oss << ":";
-            }
-            return oss.str();
+            InetNtopA(AF_INET, (void*)address_.data(), buffer, sizeof(buffer));
+        } else {
+            InetNtopA(AF_INET6, (void*)address_.data(), buffer, sizeof(buffer));
         }
-        return {};
+#else
+        if (addr_family_ == StunAddress::Family::IPv4) {
+            inet_ntop(AF_INET, address_.data(), buffer, sizeof(buffer));
+        } else {
+            inet_ntop(AF_INET6, address_.data(), buffer, sizeof(buffer));
+        }
+#endif
+        return buffer;
     }
 
     // Decode from span; returns std::nullopt if buffer too small
