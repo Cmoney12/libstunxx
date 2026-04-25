@@ -56,6 +56,13 @@ bool stunxx::Decoder::decode() {
         // Store attribute header
         attributes_.append(AttrHeader{type, len, offset_ + ATTR_HEADER_SIZE});
 
+        // RFC 8489 §7.3: track unrecognized comprehension-required attributes.
+        // Comprehension-optional (>= 0x8000) are silently ignored.
+        if (is_comprehension_required(type) && !is_known_attr_type(type)) {
+            unknown_required_.push_back(type);
+        }
+
+
         // Move to next attribute (padded to 4 bytes)
         const std::size_t padded_len = (len + 3) & ~0x03;
         offset_ += ATTR_HEADER_SIZE + padded_len;
@@ -102,6 +109,14 @@ bool stunxx::Decoder::isRequest() const {
 
 bool stunxx::Decoder::isIndication() const {
     return is_indication(messageClass());
+}
+
+bool stunxx::Decoder::hasUnknownRequired() const noexcept {
+    return !unknown_required_.empty();
+}
+
+const std::vector<std::uint16_t>& stunxx::Decoder::unknownRequired() const noexcept {
+    return unknown_required_;
 }
 
 std::size_t stunxx::Decoder::totalLength() const noexcept {

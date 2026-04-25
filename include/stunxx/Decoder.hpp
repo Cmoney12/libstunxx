@@ -41,6 +41,8 @@ public:
     bool isResponse() const;
     bool isRequest() const;
     bool isIndication() const;
+    bool hasUnknownRequired() const noexcept;
+    const std::vector<std::uint16_t>& unknownRequired() const noexcept;
 
     // total length including padding and header
     std::size_t totalLength() const noexcept;
@@ -112,6 +114,7 @@ private:
     std::span<const std::uint8_t> buffer_;
     StunHeader stun_header_{};
     AttributeTable attributes_;
+    std::vector<std::uint16_t> unknown_required_;
     std::size_t offset_{};
 };
 }

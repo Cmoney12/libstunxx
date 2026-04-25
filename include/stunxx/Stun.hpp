@@ -201,6 +201,57 @@ enum class StunAttrType : std::uint16_t {
     ConnectionId = 0x002A,
 };
 
+// rfc 8489
+static constexpr bool is_known_attr_type(uint16_t type) noexcept {
+    switch (static_cast<StunAttrType>(type)) {
+        // --- Comprehension-required ---
+    case StunAttrType::MappedAddress:
+    case StunAttrType::Username:
+    case StunAttrType::MessageIntegrity:
+    case StunAttrType::ErrorCode:
+    case StunAttrType::UnknownAttributes:
+    case StunAttrType::Realm:
+    case StunAttrType::Nonce:
+    case StunAttrType::MessageIntegritySHA256:
+    case StunAttrType::PasswordAlgorithm:
+    case StunAttrType::UserHash:
+    case StunAttrType::XorMappedAddress:
+    case StunAttrType::Priority:
+    case StunAttrType::UseCandidate:
+
+        // --- Optional ---
+    case StunAttrType::PasswordAlgorithms:
+    case StunAttrType::AlternateDomain:
+    case StunAttrType::Software:
+    case StunAttrType::AlternateServer:
+    case StunAttrType::Fingerprint:
+    case StunAttrType::IceControlled:
+    case StunAttrType::IceControlling:
+
+        // --- TURN ---
+    case StunAttrType::ChannelNumber:
+    case StunAttrType::Lifetime:
+    case StunAttrType::XorPeerAddress:
+    case StunAttrType::Data:
+    case StunAttrType::XorRelayedAddress:
+    case StunAttrType::EvenPort:
+    case StunAttrType::RequestedTransport:
+    case StunAttrType::DontFragment:
+    case StunAttrType::ReservationToken:
+    case StunAttrType::ConnectionId:
+        return true;
+
+    default:
+        return false;
+    }
+}
+
+
+// rfc 8489
+static constexpr bool is_comprehension_required(uint16_t type) noexcept {
+    return (type & 0x8000) == 0;
+}
+
 constexpr unsigned int STUN_TRANSACTION_ID_SIZE = 12;
 
 // Helper function to generate a random transaction ID
