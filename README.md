@@ -45,11 +45,13 @@ Lightweight with a single dependency on OpenSSL for MESSAGE-INTEGRITY and FINGER
 | XOR-PEER-ADDRESS | 0x0012 |
 | DATA | 0x0013 |
 | XOR-RELAYED-ADDRESS | 0x0016 |
+| REQUESTED-ADDRESS-FAMILY | 0x0017 |
 | EVEN-PORT | 0x0018 |
 | REQUESTED-TRANSPORT | 0x0019 |
 | DONT-FRAGMENT | 0x001A |
 | RESERVATION-TOKEN | 0x0022 |
 | CONNECTION-ID | 0x002A |
+| ADDITIONAL-ADDRESS-FAMILY | 0x8000 |
 
 
 ### Example usage for creating a binding request and parsing:
