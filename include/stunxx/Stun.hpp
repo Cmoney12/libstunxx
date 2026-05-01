@@ -162,6 +162,11 @@ enum class Protocol : std::uint8_t {
     TCP = 6     // Rarely used; TURN TCP relaying is optional
 };
 
+enum class AddressFamily : std::uint8_t {
+    IPv4 = 0x01,
+    IPv6 = 0x02
+};
+
 enum class StunAttrType : std::uint16_t {
     // Comprehension-required
     MappedAddress = 0x0001,
@@ -171,6 +176,7 @@ enum class StunAttrType : std::uint16_t {
     UnknownAttributes = 0x000A,
     Realm = 0x0014,
     Nonce = 0x0015,
+    RequestedAddressFamily = 0x0017,
     MessageIntegritySHA256 = 0x001C,
     PasswordAlgorithm = 0x001D,
     UserHash = 0x001E,
@@ -179,6 +185,7 @@ enum class StunAttrType : std::uint16_t {
     UseCandidate = 0x0025,
 
     // Comprehension-optional
+    AdditionalAddressFamily = 0x8000,
     PasswordAlgorithms = 0x8002,
     AlternateDomain = 0x8003,
     Software = 0x8022,
@@ -212,6 +219,7 @@ static constexpr bool is_known_attr_type(uint16_t type) noexcept {
     case StunAttrType::UnknownAttributes:
     case StunAttrType::Realm:
     case StunAttrType::Nonce:
+    case StunAttrType::RequestedAddressFamily:
     case StunAttrType::MessageIntegritySHA256:
     case StunAttrType::PasswordAlgorithm:
     case StunAttrType::UserHash:
@@ -220,6 +228,7 @@ static constexpr bool is_known_attr_type(uint16_t type) noexcept {
     case StunAttrType::UseCandidate:
 
         // --- Optional ---
+    case StunAttrType::AdditionalAddressFamily:
     case StunAttrType::PasswordAlgorithms:
     case StunAttrType::AlternateDomain:
     case StunAttrType::Software:

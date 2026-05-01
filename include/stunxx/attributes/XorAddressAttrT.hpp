@@ -44,15 +44,14 @@
 
 namespace stunxx {
 struct StunAddress {
-    enum class Family : std::uint8_t { IPv4 = 0x01, IPv6 = 0x02 };
 
-    Family family{};
+    AddressFamily family{};
     std::uint16_t port{};
     std::array<std::uint8_t, 16> bytes{}; // first 4 bytes for IPv4
 
     static StunAddress ipv4(std::uint16_t port, std::span<const std::uint8_t, 4> addr) {
         StunAddress out{};
-        out.family = Family::IPv4;
+        out.family = AddressFamily::IPv4;
         out.port = port;
         std::ranges::copy(addr, out.bytes.begin());
         return out;
@@ -60,13 +59,13 @@ struct StunAddress {
 
     static StunAddress ipv6(std::uint16_t port, std::span<const std::uint8_t, 16> addr) {
         StunAddress out{};
-        out.family = Family::IPv6;
+        out.family = AddressFamily::IPv6;
         out.port = port;
         std::ranges::copy(addr, out.bytes.begin());
         return out;
     }
 
-    constexpr std::size_t length() const noexcept { return family == Family::IPv4 ? 4 : 16; }
+    constexpr std::size_t length() const noexcept { return family == AddressFamily::IPv4 ? 4 : 16; }
 };
 
 template<StunAttrType T>
@@ -93,7 +92,7 @@ public:
         return (length() + 3) & ~std::size_t{0x03};
     }
 
-    StunAddress::Family family() const noexcept { return addr_family_; }
+    AddressFamily family() const noexcept { return addr_family_; }
     std::uint16_t port() const noexcept { return port_; }
     std::span<const std::uint8_t> address() const noexcept {
         return {address_.data(), addr_length_};
@@ -103,13 +102,13 @@ public:
         char buffer[INET6_ADDRSTRLEN];
 
 #ifdef _WIN32
-        if (addr_family_ == StunAddress::Family::IPv4) {
+        if (addr_family_ == AddressFamily::IPv4) {
             InetNtopA(AF_INET, (void*)address_.data(), buffer, sizeof(buffer));
         } else {
             InetNtopA(AF_INET6, (void*)address_.data(), buffer, sizeof(buffer));
         }
 #else
-        if (addr_family_ == StunAddress::Family::IPv4) {
+        if (addr_family_ == AddressFamily::IPv4) {
             inet_ntop(AF_INET, address_.data(), buffer, sizeof(buffer));
         } else {
             inet_ntop(AF_INET6, address_.data(), buffer, sizeof(buffer));
@@ -123,8 +122,8 @@ public:
                                                  std::span<const std::uint8_t, 12> tid) noexcept {
         if (buffer.size() < 4) return std::nullopt;
 
-        const auto family = static_cast<StunAddress::Family>(buffer[1]);
-        const std::size_t addr_len = (family == StunAddress::Family::IPv4) ? 4 : 16;
+        const auto family = static_cast<AddressFamily>(buffer[1]);
+        const std::size_t addr_len = (family == AddressFamily::IPv4) ? 4 : 16;
 
         if (buffer.size() < 4 + addr_len) return std::nullopt;
 
@@ -139,7 +138,7 @@ public:
             decoded[i] = buffer[4 + i] ^ xor_byte;
         }
 
-        StunAddress addr = (family == StunAddress::Family::IPv4)
+        StunAddress addr = (family == AddressFamily::IPv4)
             ? StunAddress::ipv4(port, std::span<const std::uint8_t, 4>(decoded.data(), 4))
             : StunAddress::ipv6(port, std::span<const std::uint8_t, 16>(decoded.data(), 16));
 
@@ -170,7 +169,7 @@ public:
 
 private:
     std::array<std::uint8_t, 16> address_{};
-    StunAddress::Family addr_family_;
+    AddressFamily addr_family_;
     std::size_t addr_length_{0};
     std::uint16_t port_{};
     std::array<std::uint8_t, STUN_TRANSACTION_ID_SIZE> transaction_id_{};
