@@ -13,5 +13,9 @@
 #include "ReservationAttr.hpp"
 #include "DataAttr.hpp"
 #include "IceControlAttr.hpp"
+#include "AddressFamilyAttrT.hpp"
+#include "ChannelNumberAttr.hpp"
+#include "AddressErrorCodeAttr.hpp"
+#include "UserHashAttr.hpp"
 
 #endif //LIBSTUNXX_ATTRIBUTES_HPP

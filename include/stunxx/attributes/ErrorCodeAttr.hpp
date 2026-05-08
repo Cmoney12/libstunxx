@@ -57,7 +57,7 @@ public:
             return std::nullopt;
 
         // Reserved bytes (buffer[0], buffer[1]) are ignored on receive per RFC 5389
-        const std::uint8_t cls = (buffer[2] & 0x07) >> 5; // bits 7-5 of byte 2
+        const std::uint8_t cls = (buffer[2] >> 5) & 0x07; // bits 7-5 of byte 2
         const std::uint8_t num =  buffer[3];
 
         // Class must be 3-6, number must be 0-99 per RFC 5389
@@ -90,8 +90,7 @@ public:
 
         std::uint8_t* body = buffer.data() + ATTR_HEADER_SIZE;
 
-        // Zero reserved + class/number area
-        std::memset(body, 0, 4);
+        std::memset(body, 0, padded_len);
 
         const auto cls = static_cast<std::uint8_t>(error_code_ / 100);
         const auto num = static_cast<std::uint8_t>(error_code_ % 100);
@@ -101,11 +100,6 @@ public:
 
         if (!reason_.empty()) {
             std::memcpy(body + 4, reason_.data(), reason_.size());
-        }
-
-        const std::size_t padding = padded_len - value_len;
-        if (padding > 0) {
-            std::memset(body + 4 + reason_.size(), 0, padding);
         }
 
         return true;

@@ -186,6 +186,7 @@ enum class StunAttrType : std::uint16_t {
 
     // Comprehension-optional
     AdditionalAddressFamily = 0x8000,
+    AddressErrorCode = 0x8001,
     PasswordAlgorithms = 0x8002,
     AlternateDomain = 0x8003,
     Software = 0x8022,
@@ -229,6 +230,7 @@ static constexpr bool is_known_attr_type(uint16_t type) noexcept {
 
         // --- Optional ---
     case StunAttrType::AdditionalAddressFamily:
+    case StunAttrType::AddressErrorCode:
     case StunAttrType::PasswordAlgorithms:
     case StunAttrType::AlternateDomain:
     case StunAttrType::Software:

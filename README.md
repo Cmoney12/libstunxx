@@ -52,6 +52,7 @@ Lightweight with a single dependency on OpenSSL for MESSAGE-INTEGRITY and FINGER
 | RESERVATION-TOKEN | 0x0022 |
 | CONNECTION-ID | 0x002A |
 | ADDITIONAL-ADDRESS-FAMILY | 0x8000 |
+| ADDRESS-ERROR-CODE | 0x8001 |
 
 
 ### Example usage for creating a binding request and parsing:

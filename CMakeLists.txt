@@ -35,7 +35,10 @@ add_library(stunxx
         include/stunxx/ChannelData.hpp
         include/stunxx/attributes/IceControlAttr.hpp
         include/stunxx/stunxx.hpp
-        include/stunxx/attributes/AddressFamilyAttrT.hpp)
+        include/stunxx/attributes/AddressFamilyAttrT.hpp
+        include/stunxx/attributes/ChannelNumberAttr.hpp
+        include/stunxx/attributes/AddressErrorCodeAttr.hpp
+        include/stunxx/attributes/UserHashAttr.hpp)
 
 target_include_directories(stunxx
         PUBLIC
