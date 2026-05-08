@@ -31,7 +31,7 @@ public:
         return kHashSize;
     }
 
-    constexpr std::size_t paddedLength() noexcept {
+    constexpr std::size_t paddedLength() const noexcept {
         return kHashSize;
     }
 
