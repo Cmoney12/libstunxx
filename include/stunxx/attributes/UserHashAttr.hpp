@@ -12,6 +12,7 @@
 #include "stunxx/Stun.hpp"
 
 namespace stunxx {
+
 class UserHashAttr {
 public:
     static constexpr StunAttrType type  = StunAttrType::UserHash;
