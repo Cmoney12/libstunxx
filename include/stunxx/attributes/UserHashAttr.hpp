@@ -7,6 +7,7 @@
 #include <optional>
 #include <algorithm>
 #include <span>
+#include <openssl/evp.h>
 
 #include "stunxx/Stun.hpp"
 
