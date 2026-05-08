@@ -120,11 +120,10 @@ public:
         unsigned char result[EVP_MAX_MD_SIZE];
 
         if (!HMAC(md,
-                  key_.data(), static_cast<int>(key_.size()),
-                  message.data(), message.size(),
-                  result, &result_len)) {
+            key_.data(), static_cast<int>(key_.size()),
+            message.data(), message.size(), result, &result_len)) {
             return false;
-                  }
+        }
 
         if (result_len != EXPECTED_SIZE)
             return false;

@@ -84,6 +84,8 @@ using UsernameAttr = StringAttrT<StunAttrType::Username>;
 using RealmAttr = StringAttrT<StunAttrType::Realm>;
 using NonceAttr = StringAttrT<StunAttrType::Nonce>;
 using SoftwareAttr = StringAttrT<StunAttrType::Software>;
+// RFC 8489: ALTERNATE-DOMAIN MUST be less than 128 characters (up to 763 bytes UTF-8)
+using AlternateDomainAttr = StringAttrT<StunAttrType::AlternateDomain>;
 }
 
 #endif //LIBSTUNXX_STRINGATTRT_HPP
