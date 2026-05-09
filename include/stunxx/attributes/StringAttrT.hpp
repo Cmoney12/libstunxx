@@ -30,7 +30,7 @@
 #include "stunxx/Stun.hpp"
 
 namespace stunxx {
-template<StunAttrType T>
+template<StunAttrType T, std::size_t MaxBytes = std::numeric_limits<std::size_t>::max()>
 class StringAttrT {
 public:
     static constexpr StunAttrType type = T;
@@ -50,9 +50,12 @@ public:
         return (length() + 3) & ~std::size_t{0x03};
     }
 
-    // Decode from a span; returns std::nullopt if buffer empty
     static std::optional<StringAttrT> decode(std::span<const std::uint8_t> buffer) {
-        return StringAttrT(std::string(reinterpret_cast<const char*>(buffer.data()), buffer.size()));
+
+        if (buffer.size() > MaxBytes) return std::nullopt;
+
+        return StringAttrT(std::string(
+            reinterpret_cast<const char*>(buffer.data()), buffer.size()));
     }
 
     // Encode to a span; returns false if buffer too small
@@ -80,12 +83,11 @@ private:
 };
 
 // Type aliases for common STUN string attributes
-using UsernameAttr = StringAttrT<StunAttrType::Username>;
-using RealmAttr = StringAttrT<StunAttrType::Realm>;
-using NonceAttr = StringAttrT<StunAttrType::Nonce>;
+using UsernameAttr = StringAttrT<StunAttrType::Username, 513>;
+using RealmAttr = StringAttrT<StunAttrType::Realm, 763>;
+using NonceAttr = StringAttrT<StunAttrType::Nonce, 763>;
 using SoftwareAttr = StringAttrT<StunAttrType::Software>;
-// RFC 8489: ALTERNATE-DOMAIN MUST be less than 128 characters (up to 763 bytes UTF-8)
-using AlternateDomainAttr = StringAttrT<StunAttrType::AlternateDomain>;
+using AlternateDomainAttr = StringAttrT<StunAttrType::AlternateDomain, 763>;
 }
 
 #endif //LIBSTUNXX_STRINGATTRT_HPP
