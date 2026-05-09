@@ -61,10 +61,10 @@ public:
         if (buffer.size() != VALUE_SIZE)
             return std::nullopt;
 
-        std::uint32_t netValue;
-        std::memcpy(&netValue, buffer.data(), VALUE_SIZE);
+        std::uint32_t net_value;
+        std::memcpy(&net_value, buffer.data(), VALUE_SIZE);
 
-        return FingerprintAttr(be32_to_host(netValue));
+        return FingerprintAttr(be32_to_host(net_value));
     }
 
     // Encode (safe, no exceptions)
@@ -76,8 +76,8 @@ public:
             static_cast<std::uint16_t>(type),
             static_cast<std::uint16_t>(VALUE_SIZE));
 
-        std::uint32_t netValue = host_to_be32(fingerprint_);
-        std::memcpy(buffer.data() + ATTR_HEADER_SIZE, &netValue, VALUE_SIZE);
+        std::uint32_t net_value = host_to_be32(fingerprint_);
+        std::memcpy(buffer.data() + ATTR_HEADER_SIZE, &net_value, VALUE_SIZE);
 
         return true;
     }

@@ -12,13 +12,11 @@ FetchContent_MakeAvailable(googletest)
 
 # --- Create test executable ---
 add_executable(libstunxxtest
-        #xor_address_test.cpp
-        #numeric_attr_test.cpp
-        #builder_test.cpp
         decode_test.cpp
         main_test.cpp
         numeric_attr_test.cpp
         xor_address_test.cpp
+        error_attr_test.cpp
         # Add more test files here if needed
 )
 

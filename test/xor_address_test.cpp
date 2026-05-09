@@ -31,7 +31,7 @@ TEST(XOrAddressAttrTest, EncodeDecodeIPv4) {
     ASSERT_TRUE(decoded_opt.has_value()) << "Decoding failed";
 
     auto& decoded = *decoded_opt;
-    EXPECT_EQ(decoded.family(), stunxx::StunAddress::Family::IPv4);
+    EXPECT_EQ(decoded.family(), stunxx::AddressFamily::IPv4);
     EXPECT_EQ(decoded.port(), port);
     for (size_t i = 0; i < ip4.size(); ++i)
         EXPECT_EQ(decoded.address()[i], ip4[i]) << "Address mismatch at byte " << i;
@@ -63,7 +63,7 @@ TEST(XOrAddressAttrTest, EncodeDecodeIPv6) {
     ASSERT_TRUE(decoded_opt.has_value()) << "Decoding failed";
 
     auto& decoded = *decoded_opt;
-    EXPECT_EQ(decoded.family(), stunxx::StunAddress::Family::IPv6);
+    EXPECT_EQ(decoded.family(), stunxx::AddressFamily::IPv6);
     EXPECT_EQ(decoded.port(), port);
     for (size_t i = 0; i < ip6.size(); ++i)
         EXPECT_EQ(decoded.address()[i], ip6[i]) << "Address mismatch at byte " << i;
