@@ -17,6 +17,7 @@ add_executable(libstunxxtest
         numeric_attr_test.cpp
         xor_address_test.cpp
         error_attr_test.cpp
+        string_attr_test.cpp
         # Add more test files here if needed
 )
 
