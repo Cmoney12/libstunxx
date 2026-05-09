@@ -1,12 +1,6 @@
 #ifndef LIBSTUNXX_NUMERICATTRT_HPP
 #define LIBSTUNXX_NUMERICATTRT_HPP
 
-#include <optional>
-#include <span>
-#include <cstdint>
-
-#include "stunxx/Stun.hpp"
-
 /*
  * STUN attribute value for PRIORITY, REQUESTED-TRANSPORT, LIFETIME, etc.
  * Reference: RFC 5389 §15.1, RFC 5766 §14.2, §14.3
@@ -29,6 +23,14 @@
  *
  * The attribute length field in the STUN header is always 4 bytes.
  */
+
+
+#include <optional>
+#include <span>
+#include <cstdint>
+
+#include "stunxx/Stun.hpp"
+
 namespace stunxx {
 template<StunAttrType T>
 class NumericAttrT {

@@ -2,10 +2,20 @@
 #define LIBSTUNXX_STRINGATTRT_HPP
 
 /*
- * STUN attribute value for USERNAME, REALM, NONCE, and SOFTWARE
- * Reference: RFC 5389 §15.3, §15.4, §15.5, §15.10
+ * STUN string attributes: USERNAME, REALM, NONCE, SOFTWARE, ALTERNATE-DOMAIN
+ * Reference: RFC 8489 §14.3, §14.9, §14.10, §14.14, §14.13
+ *            (obsoletes RFC 5389 §15.3, §15.4, §15.5, §15.10)
  *
- * These attributes contain a variable-length UTF-8 encoded string.
+ * These attributes contain a variable-length UTF-8 encoded string,
+ * padded with 0x00 bytes to a 32-bit boundary. The length field in
+ * the attribute header excludes padding.
+ *
+ * Size constraints (RFC 8489):
+ *   USERNAME        §14.3   up to 513 bytes
+ *   REALM           §14.9   up to 763 bytes
+ *   NONCE           §14.10  up to 763 bytes
+ *   SOFTWARE        §14.14  no explicit limit
+ *   ALTERNATE-DOMAIN §14.13 up to 763 bytes
  *
  *  0                   1                   2                   3
  *  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -14,12 +24,7 @@
  * |                   (variable length, padded to                 |
  * |                    multiple of 4 bytes)                      |
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- *
- * The string is padded with 0x00 bytes to align the attribute to a
- * 32-bit boundary. The length field in the STUN attribute header
- * excludes this padding.
  */
-
 
 #include <cstdint>
 #include <cstring>
@@ -66,14 +71,11 @@ public:
         writeHeader(buffer.first<4>(), static_cast<std::uint16_t>(type),
             static_cast<std::uint16_t>(total_len));
 
+        // Add Padding
+        std::memset(buffer.data() + ATTR_HEADER_SIZE, 0, paddedLength());
+
         // Copy string
         std::memcpy(buffer.data() + ATTR_HEADER_SIZE, value_.data(), value_.size());
-
-        // Add padding
-        const std::size_t padding = paddedLength() - value_.size();
-        if (padding > 0) {
-            std::memset(buffer.data() + ATTR_HEADER_SIZE + value_.size(), 0, padding);
-        }
 
         return true;
     }

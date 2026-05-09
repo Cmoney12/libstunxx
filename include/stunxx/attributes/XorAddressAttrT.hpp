@@ -178,6 +178,7 @@ private:
 using XorMappedAddrAttr = XorAddressAttrT<StunAttrType::XorMappedAddress>;
 using XorPeerAddrAttr = XorAddressAttrT<StunAttrType::XorPeerAddress>;
 using XorRelayedAddrAttr = XorAddressAttrT<StunAttrType::XorRelayedAddress>;
+using AlternateServerAttr = XorAddressAttrT<StunAttrType::AlternateServer>;
 }
 
 #endif //LIBSTUNXX_XORADDRESSATTRT_HPP
