@@ -18,7 +18,7 @@ add_executable(libstunxxtest
         xor_address_test.cpp
         error_attr_test.cpp
         string_attr_test.cpp
-        # Add more test files here if needed
+        message_integrity_test.cpp
 )
 
 # --- Include your library headers ---
