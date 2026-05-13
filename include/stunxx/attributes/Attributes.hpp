@@ -7,7 +7,6 @@
 #include "ErrorCodeAttr.hpp"
 #include "FingerprintAttr.hpp"
 #include "MessageIntegrityAttrT.hpp"
-#include "PasswordAlgorithmAttrT.hpp"
 #include "MarkerAttrT.hpp"
 #include "UnknownAttributesAttr.hpp"
 #include "ReservationAttr.hpp"
@@ -17,5 +16,7 @@
 #include "ChannelNumberAttr.hpp"
 #include "AddressErrorCodeAttr.hpp"
 #include "UserHashAttr.hpp"
+#include "PasswordAlgorithmAttr.hpp"
+#include "PasswordAlgorithmsAttr.hpp"
 
 #endif //LIBSTUNXX_ATTRIBUTES_HPP

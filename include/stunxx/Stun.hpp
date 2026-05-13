@@ -166,6 +166,11 @@ enum class AddressFamily : std::uint8_t {
     IPv4 = 0x01,
     IPv6 = 0x02
 };
+    
+enum class PasswordAlgorithm : std::uint16_t {
+    MD5    = 0x0001,
+    SHA256 = 0x0002,
+};
 
 enum class StunAttrType : std::uint16_t {
     // Comprehension-required
