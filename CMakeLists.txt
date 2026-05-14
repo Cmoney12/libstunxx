@@ -20,7 +20,7 @@ target_include_directories(stunxx
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(stunxx OpenSSL::SSL)
+target_link_libraries(stunxx OpenSSL::Crypto)
 
 option(BUILD_TESTS "Build the tests" ON)  # Allows turning tests off if needed
 
