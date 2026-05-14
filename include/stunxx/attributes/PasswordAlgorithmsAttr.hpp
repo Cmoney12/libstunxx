@@ -42,6 +42,7 @@
 #include <cstring>
 #include <span>
 #include <optional>
+#include <algorithm>
 
 #include "stunxx/Stun.hpp"
 #include "stunxx/PasswordAlgorithmEntry.hpp"
@@ -68,6 +69,14 @@ public:
 
     std::size_t paddedLength() const noexcept {
         return length(); // already padded
+    }
+
+    bool contains(PasswordAlgorithm password_algorithm) const {
+        return std::ranges::any_of(
+        entries_,
+        [&](const auto& entry) {
+            return entry.algorithm == password_algorithm;
+        });
     }
 
     // Decode from a span; returns std::nullopt if invalid
