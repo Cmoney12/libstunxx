@@ -26,7 +26,7 @@
  * - Parameter Length:   Length of the parameters field in bytes.
  * - Parameters:         Algorithm-specific data (salt, iterations, etc.).
  *
- * The attribute length does not include STUN attribute padding.
+ *
  */
 
 #include <cstdint>
@@ -47,7 +47,7 @@ public:
     const PasswordAlgorithmEntry& entry() const noexcept { return entry_; }
     PasswordAlgorithm algorithm() const noexcept { return entry_.algorithm; }
 
-    std::size_t length() const noexcept { return entry_.length(); }
+    std::size_t length() const noexcept { return entry_.paddedLength(); }
     std::size_t paddedLength() const noexcept { return entry_.paddedLength(); }
 
     static std::optional<PasswordAlgorithmAttr> decode(std::span<const std::uint8_t> buffer) {
@@ -56,8 +56,8 @@ public:
         const auto algorithm = static_cast<PasswordAlgorithm>(read_be16(buffer.first<2>()));
         const std::uint16_t param_len = read_be16(buffer.subspan(2).first<2>());
 
-        if (buffer.size() < 4 + static_cast<std::size_t>(param_len))
-            return std::nullopt;
+        const std::size_t padded_param_len = (param_len + 3) & ~std::size_t{3};
+        if (buffer.size() < 4 + padded_param_len) return std::nullopt;
 
         PasswordAlgorithmEntry entry;
         entry.algorithm = algorithm;
@@ -71,7 +71,7 @@ public:
 
         writeHeader(buffer.first<4>(),
             static_cast<std::uint16_t>(type),
-            static_cast<std::uint16_t>(entry_.length()));
+            static_cast<std::uint16_t>(entry_.paddedLength()));
 
         std::size_t offset = ATTR_HEADER_SIZE;
 

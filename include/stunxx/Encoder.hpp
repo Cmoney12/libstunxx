@@ -64,7 +64,6 @@ public:
 
     template<MessageIntegrityAttr AttrType>
     bool addAttribute(AttrType& attr) {
-        if (has_message_integrity_) return false;
 
         const std::size_t total_len = ATTR_HEADER_SIZE + AttrType::EXPECTED_SIZE;
 
