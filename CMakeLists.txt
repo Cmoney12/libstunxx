@@ -8,6 +8,7 @@ if(OPENSSL_FOUND)
     message("Openssl found")
 endif()
 
+
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)  # default OFF
 
 add_library(stunxx
