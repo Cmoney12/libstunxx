@@ -53,8 +53,10 @@ public:
     static constexpr StunAttrType type = StunAttrType::PasswordAlgorithms;
 
     PasswordAlgorithmsAttr() noexcept = default;
-    explicit PasswordAlgorithmsAttr(std::vector<PasswordAlgorithmEntry> entries)
-        : entries_(std::move(entries)) {}
+
+    template <std::ranges::input_range R>
+    explicit PasswordAlgorithmsAttr(R&& r)
+        : entries_(std::ranges::begin(r), std::ranges::end(r)) {}
 
     const std::vector<PasswordAlgorithmEntry>& entries() const noexcept { return entries_; }
     void addEntry(const PasswordAlgorithmEntry& entry) { entries_.push_back(entry); }

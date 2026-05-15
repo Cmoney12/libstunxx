@@ -20,7 +20,7 @@ TEST_F(ErrorCodeAttrTest, ConstructsFromNumericCode) {
 }
 
 TEST_F(ErrorCodeAttrTest, ConstructsFromEnumCode) {
-    stunxx::ErrorCodeAttr attr{stunxx::StunErrorCode::Unauthorized};
+    stunxx::ErrorCodeAttr attr{stunxx::StunErrorCode::Unauthenticated};
 
     EXPECT_EQ(attr.errorCode(), 401);
     EXPECT_EQ(attr.value(), "Unauthorized");

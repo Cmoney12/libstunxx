@@ -30,6 +30,7 @@ inline constexpr int MAX_PACKET_SIZE = 65536;
 inline constexpr std::uint32_t MAGIC_COOKIE = 0x2112A442;
 inline constexpr std::size_t STUN_HEADER_SIZE = 20;
 inline constexpr std::size_t ATTR_HEADER_SIZE = 4;
+inline constexpr unsigned int STUN_TRANSACTION_ID_SIZE = 12;
 
 // ── Byte-swap helpers ─────────────────────────────────────────────────────────
 // Symmetric: host<->BE is the same operation; no-op on big-endian platforms.
@@ -106,7 +107,7 @@ constexpr void write_be32(std::span<std::uint8_t, 4> buf, std::uint32_t value) n
 enum class StunErrorCode : std::uint16_t {
     TryAlternate = 300,
     BadRequest = 400,
-    Unauthorized = 401,
+    Unauthenticated = 401,
     Forbidden = 403,
     UnknownAttribute = 420,
     AllocationMismatch = 437,
@@ -262,13 +263,10 @@ static constexpr bool is_known_attr_type(uint16_t type) noexcept {
     }
 }
 
-
 // rfc 8489
 static constexpr bool is_comprehension_required(uint16_t type) noexcept {
     return (type & 0x8000) == 0;
 }
-
-constexpr unsigned int STUN_TRANSACTION_ID_SIZE = 12;
 
 // Helper function to generate a random transaction ID
 inline void generateTransactionId(std::uint8_t (&transaction_id)[STUN_TRANSACTION_ID_SIZE]) {
