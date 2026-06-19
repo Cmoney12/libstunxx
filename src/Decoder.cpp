@@ -62,7 +62,6 @@ bool stunxx::Decoder::decode() {
             unknown_required_.push_back(type);
         }
 
-
         // Move to next attribute (padded to 4 bytes)
         const std::size_t padded_len = (len + 3) & ~0x03;
         offset_ += ATTR_HEADER_SIZE + padded_len;
