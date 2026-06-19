@@ -17,8 +17,7 @@ add_library(stunxx
 
 target_include_directories(stunxx
         PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
+        ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(stunxx OpenSSL::Crypto)
 

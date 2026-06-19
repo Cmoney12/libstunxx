@@ -57,7 +57,7 @@ public:
             return std::nullopt;
 
         // Reserved bytes (buffer[0], buffer[1]) are ignored on receive per RFC 5389
-        const std::uint8_t cls = (buffer[2] >> 5) & 0x07; // bits 7-5 of byte 2
+        const std::uint8_t cls = buffer[2] & 0x07; // bits 7-5 of byte 2
         const std::uint8_t num =  buffer[3];
 
         // Class must be 3-6, number must be 0-99 per RFC 5389
@@ -95,7 +95,7 @@ public:
         const auto cls = static_cast<std::uint8_t>(error_code_ / 100);
         const auto num = static_cast<std::uint8_t>(error_code_ % 100);
 
-        body[2] = static_cast<std::uint8_t>((cls & 0x07) << 5);
+        body[2] = static_cast<std::uint8_t>(cls & 0x07);
         body[3] = num;
 
         if (!reason_.empty()) {

@@ -14,8 +14,7 @@ template<typename AttrType>
 concept XorAttr = requires(std::span<const std::uint8_t> buf,
                            std::span<const std::uint8_t, STUN_TRANSACTION_ID_SIZE> tid) {
     { AttrType::decode(buf, tid) } -> std::same_as<std::optional<AttrType>>;
-                           };
-
+};
 
 class Decoder {
 public:
