@@ -23,7 +23,7 @@ TEST_F(ErrorCodeAttrTest, ConstructsFromEnumCode) {
     stunxx::ErrorCodeAttr attr{stunxx::StunErrorCode::Unauthenticated};
 
     EXPECT_EQ(attr.errorCode(), 401);
-    EXPECT_EQ(attr.value(), "Unauthorized");
+    EXPECT_EQ(attr.value(), "Unauthenticated");
 }
 
 TEST_F(ErrorCodeAttrTest, LengthCalculation) {
@@ -59,8 +59,8 @@ TEST_F(ErrorCodeAttrTest, EncodeWritesCorrectErrorCodeFields) {
 
     constexpr std::size_t body_offset = stunxx::ATTR_HEADER_SIZE;
 
-    EXPECT_EQ(buffer[body_offset + 2], 0x80);
-    EXPECT_EQ(buffer[body_offset + 3], 87);
+    EXPECT_EQ(buffer[body_offset + 2], 4);   // class, low 3 bits
+    EXPECT_EQ(buffer[body_offset + 3], 87);  // number
 }
 
 TEST_F(ErrorCodeAttrTest, EncodeWritesReasonPhrase) {
@@ -121,8 +121,8 @@ TEST_F(ErrorCodeAttrTest, DecodeFailsForInvalidNumber) {
 TEST_F(ErrorCodeAttrTest, DecodeSucceedsWithoutReasonPhrase) {
     std::array<std::uint8_t, 4> data{};
 
-    data[2] = static_cast<std::uint8_t>(4 << 5);
-    data[3] = 4;
+    data[2] = 4;  // class in low 3 bits, not shifted
+    data[3] = 4;  // number
 
     auto result = stunxx::ErrorCodeAttr::decode(data);
 
@@ -135,17 +135,15 @@ TEST_F(ErrorCodeAttrTest, DecodeSucceedsWithoutReasonPhrase) {
 TEST_F(ErrorCodeAttrTest, DecodeSucceedsWithReasonPhrase) {
     std::array<std::uint8_t, 15> data{};
 
-    data[2] = static_cast<std::uint8_t>(4 << 5);
-    data[3] = 0;
+    data[2] = 4;   // class nibble in low 3 bits — matches decode's `& 0x07`
+    data[3] = 0;   // number
 
     constexpr char reason[] = "Bad Request";
-
     std::memcpy(data.data() + 4, reason, sizeof(reason) - 1);
 
     auto result = stunxx::ErrorCodeAttr::decode(data);
 
     ASSERT_TRUE(result.has_value());
-
     EXPECT_EQ(result->errorCode(), 400);
     EXPECT_EQ(result->value(), "Bad Request");
 }
